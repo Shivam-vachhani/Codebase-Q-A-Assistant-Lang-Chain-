@@ -1,0 +1,84 @@
+# ==============================================================================
+# 🐍 PYTHON / BACKEND INTEGRATION
+# ==============================================================================
+# Virtual Environments (Local environment configurations)
+.venv/
+venv/
+env/
+myenv/
+ENV/
+
+# Python compiled bytecode / Cache tracking directories
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local Vector Database data paths (Prevents thousands of local DB logs uploading)
+**/data/chroma_db/
+**/chroma_db/
+*.local.db
+
+# Temporary directories (Prevents cloned Git repositories from uploading)
+**/temp/repos/
+/temp/repos/
+
+# Local environment configuration file
+.env
+
+
+# ==============================================================================
+# ⚛️ REACT / FRONTEND INTEGRATION (Future Proofing)
+# ==============================================================================
+# Package manager dependencies
+**/node_modules/
+/.pnp
+.pnp.js
+
+# Production build outputs (React / Next.js builds)
+**/dist/
+**/build/
+**/.next/
+**/out/
+
+# Frontend testing logs & coverages
+**/coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js/Vite local configurations
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+
+# ==============================================================================
+# 💻 IDE & OPERATING SYSTEM SPECIALTIES
+# ==============================================================================
+# Windows specific system generation files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Mac specific tracking files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Code Editor specific settings (Keeps workspace settings local to your computer)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
