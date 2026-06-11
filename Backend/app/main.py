@@ -1,20 +1,21 @@
-import os ,subprocess,pathlib,json
-from uuid import uuid4
-from langchain_ollama import ChatOllama
-from langchain_chroma import Chroma 
-from langchain_text_splitters import RecursiveCharacterTextSplitter,Language
-from pydantic import BaseModel
+from fastapi import FastAPI
+from app.api import ingestRoute,queryRoute
+
+server = FastAPI(
+    title= "Codebase Q&A Assistant API",
+    version="1.0.0"
+)
+
+server.include_router(ingestRoute.router,tags=["Ingestion"])
+server.include_router(queryRoute.router,tags=["Chatbot"])
+
+@server.get("/")
+def root():
+    return {"message":"Codebase Q&A Assistant backend running successfully."}
 
 
 
 
-##-----models-----##
-class IngestRequest(BaseModel):
-    repo_url:str
-
-class QueryRequest(BaseModel):
-    question:str
-    repo_id:str
 
 
 
