@@ -7,9 +7,9 @@ router = APIRouter()
 @router.post('/query')
 def ask_query(req:QueryRequest):
     
-    pipeline = get_rag_service(req.repo_id) 
+    pipeline = get_rag_service(req.repo_id,req.model) 
     response = pipeline.run(req.question)
-
+     
     if response:
         return JSONResponse(
             status_code=200,

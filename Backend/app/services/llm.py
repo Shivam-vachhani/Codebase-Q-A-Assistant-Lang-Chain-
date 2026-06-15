@@ -7,11 +7,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def llm_model():
-    # return ChatOllama(model="codellama:7b",base_url=config.OLLAMA_HOST)
-    return ChatOpenAI(model="gpt-4o-mini")
+def llm_model(model:str):
+    if model == "gpt-4o":
+            return ChatOpenAI(model="gpt-4o-mini")
+    elif model == "qwen-2.5":
+        return ChatOllama(model="codellama:7b",base_url=config.OLLAMA_HOST)
 
-def build_rag_chain():
+def build_rag_chain(model:str):
     prompt = ChatPromptTemplate([
         ('system', """You are a senior software engineer and technical mentor helping a developer deeply understand a codebase.
 
@@ -54,4 +56,4 @@ def build_rag_chain():
         ("human", "{question}")
     ])
 
-    return prompt | llm_model() | StrOutputParser()
+    return prompt | llm_model(model) | StrOutputParser()

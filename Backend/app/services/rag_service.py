@@ -6,11 +6,11 @@ import time
 
 _rag_cache:dict[str,"RAGservice"] ={}
 
-def get_rag_service(repo_id:str)-> "RAGservice" :
+def get_rag_service(repo_id:str,model:str)-> "RAGservice" :
 
     if repo_id not in _rag_cache: 
         print(f"[RAGService] Building service for repo: {repo_id}")
-        _rag_cache[repo_id] = RAGservice(repo_id)
+        _rag_cache[repo_id] = RAGservice(repo_id,model)
         print(f"[RAGService] Cached. Total cached repos: {len(_rag_cache)}")
     else:
         print(f"[RAGService] Cache hit for repo: {repo_id}")
@@ -25,11 +25,11 @@ def invalidate_cache(repo_id:str):
 
 class RAGservice():
 
-    def __init__(self,repo_id:str):
+    def __init__(self,repo_id:str,model:str):
         vectorestore = load_chroma(repo_id)
         chunks= get_all_docs(vectorestore)
         self.retriever = HybridRetriever(chunks,vectorestore)
-        self.chain = build_rag_chain()
+        self.chain = build_rag_chain(model)
 
     def run(self,question:str)->dict:
         t0 = time.time()

@@ -16,10 +16,12 @@ async def data_ingestion(req:IngestRequest):
     repo_id,path = clone_repo(str(req.repo_url))
 
     try:
+
         if not repo_id:
             raise HTTPException(status_code=400,detail="Clone repo failed please provaid valid url")
         else:
             print("Repo clonned....")
+            
         files = get_code_files(path)
         print("Files loded....")
         chunks = chunk_files(files)
