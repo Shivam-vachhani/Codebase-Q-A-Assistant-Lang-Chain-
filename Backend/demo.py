@@ -18,7 +18,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from cachetools import LRUCache
 
-
 ##-----configurations-----##
 OLLAMA_HOST = os.getenv("OLLAMA_HOST","http://localhost:11434")
 CHROMA_PATH = os.getenv("CHROMA_PATH","./data/chroma_db")

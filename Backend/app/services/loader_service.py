@@ -64,8 +64,10 @@ def get_code_files(clone_path:str)->list[dict]:
                             "language":lang_enum.value if lang_enum else "plain_text",
                             "content": content_to_save
                       })
-                        
+     
                 except Exception:
                     pass 
+    for file in files:
+        print(file['path'])
     return files
 

@@ -23,19 +23,32 @@ def ingest_documents_to_chroma(documents: list[Document],repo_id:str)->bool:
     Injects repo_id into metadata to isolate codebase searches later."""
     try:
         embeddings = get_embedding_model()
+
+        parent_docs = [d for d in documents if d.metadata.get("chunk_type") == "parent"]
+        child_docs = [d for d in documents if d.metadata.get("chunk_type") == "child"]
+
         for doc in documents:
             doc.metadata['repo_id'] = repo_id     
         
-        print(f"[Chroma] Starting embedding of {len(documents)} chunks...")
+        print(f"[Chroma] Storing {len(parent_docs)} parents, {len(child_docs)} children...")
 
         Chroma.from_documents(
-            documents=documents,
+            documents=child_docs,
             embedding=embeddings,
             persist_directory=config.CHROMA_PATH + f"/{repo_id}",
-            collection_name="codebase_assistant",
+            collection_name="child_chunks",
         )
 
-        return {"status":"Success","repoId":repo_id}
+        Chroma.from_documents(
+            documents=parent_docs,
+            embedding=embeddings,
+            persist_directory=config.CHROMA_PATH + f"/{repo_id}",
+            collection_name="parent_chunks",
+        )
+
+        return {"status":"Success","repoId":repo_id,
+                "parents":len(parent_docs),"childrens":len(child_docs)}
+    
     except Exception as e:
         print(f"Error ingesting documents to Chroma: {e}")
         return {"status": "Failed", "error": str(e)}
